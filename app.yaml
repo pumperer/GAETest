@@ -1,0 +1,21 @@
+application: alpotestgae
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /
+  script: MainPage.application
+
+- url: /admin
+  script: Admin.application
+
+- url: /adduser
+  script: Admin.application
+  
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
