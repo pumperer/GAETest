@@ -13,7 +13,7 @@ handlers:
 
 - url: /adduser
   script: Admin.application
-  
+
 libraries:
 - name: webapp2
   version: latest
