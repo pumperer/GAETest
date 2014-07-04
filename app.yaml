@@ -8,6 +8,9 @@ handlers:
 - url: /
   script: MainPage.application
 
+- url: /addreport
+  script: MainPage.application
+
 - url: /admin
   script: Admin.application
 

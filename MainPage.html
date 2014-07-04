@@ -1,5 +1,38 @@
 <html>
 	<body>
 		<h1>MAIN PAGE</h1>
+		Hello! {{ current_username }}!
+		<hr/>
+
+		<p>
+			<fieldset>
+				<legend>한 일 추가</legend>
+				<form action="/addreport" method="post">
+					<input type="hidden" name="username" value="{{ current_username }}" />
+					<div>이름 : {{ current_username }}</div>
+					<div>내용	<textarea name="contents"></textarea></div>
+					<div><input type="submit" value="입력" /></div>
+				</form>
+			</fieldset>
+		</p>
+
+		<p>
+			<fieldset>
+				<legend>내용들</legend>
+				<br>
+				{% for day, list in report_dict.iteritems() %}
+					{{ day }}
+					<hr/>
+					{% for report in list %}
+						<blockquote>
+							<div>이름 : {{ report.username }}</div>
+							<blockquote>{{ report.report }}</blockquote>
+						</blockquote>
+					{% endfor %}
+					<hr/>
+					<br><br>
+				{% endfor %}
+			</fieldset>
+		</p>
 	</body>
 </html>

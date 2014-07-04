@@ -8,7 +8,6 @@ import jinja2
 import os
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-from google.appengine.ext import ndb
 from google.appengine.api import users
 from Account import Account
 
@@ -41,7 +40,7 @@ class AddUser(webapp2.RequestHandler):
         newUser.username = username
         newUser.email = useremail
         #newUser.key = ndb.Key(Account, '')
-        newUser_key = newUser.put()
+        newUser.put()
         self.redirect('/admin')
 
 application = webapp2.WSGIApplication([('/admin', Admin), ('/adduser', AddUser)], debug=True)
