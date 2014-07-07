@@ -18,7 +18,7 @@ class MainPage(webapp2.RequestHandler):
             current_username = user.nickname()
             
             #report query
-            reportQry = DailyReportModel.query().order(-DailyReportModel.reportDay)
+            reportQry = DailyReportModel.query().order(-DailyReportModel.reportDay, -DailyReportModel.writeTime)
             reportFetch = reportQry.fetch()
             reportDict = {}
             #onedayList = []
@@ -43,10 +43,12 @@ class AddDailyReport(webapp2.RequestHandler):
     def post(self):
         username = self.request.get('username')
         contents = self.request.get('contents')
+        reportday = self.request.get('writedatetime')
         reportModel = DailyReportModel()
         reportModel.username = username
         reportModel.report = contents
-        reportModel.reportDay = datetime.date.today()
+        reportModel.reportDay = datetime.datetime.strptime(reportday, "%Y-%m-%d").date()
+        reportModel.writeTime = datetime.datetime.now()
         #reportModel.key = ndb.Key('DailyReport', '')
         reportModel.put()
         self.redirect('/')

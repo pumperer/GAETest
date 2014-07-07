@@ -1,0 +1,7 @@
+indexes:
+- kind: DailyReportModel
+  properties:
+  - name: reportDay
+    direction: desc
+  - name: writeTime
+    direction: desc

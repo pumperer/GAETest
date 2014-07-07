@@ -11,6 +11,7 @@ class DailyReportModel(ndb.Model):
     username = ndb.StringProperty()
     report = ndb.StringProperty()
     reportDay = ndb.DateProperty()
+    writeTime = ndb.DateTimeProperty()
     
     def getReportDay(self):
         return str(self.reportDay.year) + '-' + str(self.reportDay.month) + '-' + str(self.reportDay.day)
