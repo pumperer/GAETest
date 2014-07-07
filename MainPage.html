@@ -11,12 +11,12 @@
 
 		<p>
 			<fieldset>
-				<legend>한 일 추가</legend>
+				<legend><b>한 일 추가</b></legend>
 				<form action="/addreport" method="post">
 					<input type="hidden" name="username" value="{{ current_username }}" />
-					<div>이름 : {{ current_username }}</div>
-					<div>날짜 : <input type="date" name="writedatetime" /></div>
-					<div>내용	<textarea name="contents"></textarea></div>
+					<div>이름 : <b>{{ current_username }}</b></div>
+					<div>날짜 : <input type="date" name="writedatetime" value="{{ date_today }}"/></div>
+					<div>내용	<textarea name="contents" cols="100" rows="8"></textarea></div>
 					<div><input type="submit" value="입력" /></div>
 				</form>
 			</fieldset>
@@ -24,15 +24,15 @@
 
 		<p>
 			<fieldset>
-				<legend>내용들</legend>
+				<legend><b>내용들</b></legend>
 				<br>
 				{% for day, list in report_dict.iteritems() %}
-					{{ day }}
+					<b>{{ day }}</b>
 					<hr/>
 					{% for report in list %}
 						<blockquote>
-							<div>이름 : {{ report.username }} ({{ report.writeTime }})</div>
-							<blockquote>{{ report.report }}</blockquote>
+							<div>이름 : <b>{{ report.username }}</b> ({{ report.writeTime.strftime("%Y-%m-%d %H:%M:%S") }})</div>
+							<div><blockquote>{{ report.report }}</blockquote></div>
 						</blockquote>
 					{% endfor %}
 					<hr/>

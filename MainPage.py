@@ -1,4 +1,9 @@
-# coding=utf-8
+'''
+Created on 2014. 7. 4.
+
+@author: ALPO
+'''
+
 import jinja2
 import os
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
@@ -8,6 +13,7 @@ from DailyReport import DailyReportModel
 
 import webapp2
 import datetime
+from collections import OrderedDict
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -20,19 +26,23 @@ class MainPage(webapp2.RequestHandler):
             #report query
             reportQry = DailyReportModel.query().order(-DailyReportModel.reportDay, -DailyReportModel.writeTime)
             reportFetch = reportQry.fetch()
-            reportDict = {}
-            #onedayList = []
+            
+            reportDict = OrderedDict()
             for item in reportFetch:
                 reportDay = item.getReportDay()
-#                reportDict[reportDay].append(item)
                 if reportDict.has_key(reportDay):
                     reportDict[reportDay].append(item)
                 else:
                     reportDict[reportDay] = [item]
-
+                    
+            # sort
+            OrderedDict(sorted(reportDict.items(), key=lambda t: t[0], reverse=True))
+            
+            # jinja2 param
             template_values = {
                 'current_username' : current_username,
                 'report_dict' : reportDict,
+                'date_today' : datetime.datetime.now().strftime("%Y-%m-%d")
             }
             template = jinja_env.get_template('MainPage.html')
             self.response.out.write(template.render(template_values))
@@ -43,13 +53,17 @@ class AddDailyReport(webapp2.RequestHandler):
     def post(self):
         username = self.request.get('username')
         contents = self.request.get('contents')
+        lines = contents.splitlines()
+        toDB = ''
+        for line in lines:
+            toDB += line
+            toDB += '<br/>'
         reportday = self.request.get('writedatetime')
         reportModel = DailyReportModel()
         reportModel.username = username
-        reportModel.report = contents
+        reportModel.report = toDB
         reportModel.reportDay = datetime.datetime.strptime(reportday, "%Y-%m-%d").date()
         reportModel.writeTime = datetime.datetime.now()
-        #reportModel.key = ndb.Key('DailyReport', '')
         reportModel.put()
         self.redirect('/')
 

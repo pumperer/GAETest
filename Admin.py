@@ -1,9 +1,9 @@
-# coding=utf-8
 '''
 Created on 2014. 7. 3.
 
 @author: HyunSoo
 '''
+
 import jinja2
 import os
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(os.path.dirname(__file__)))
